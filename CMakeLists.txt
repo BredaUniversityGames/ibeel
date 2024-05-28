@@ -1,11 +1,9 @@
 include(FetchContent)
 cmake_minimum_required(VERSION 3.17)
 
-project(example)
+project(ibeel)
 
 set(CMAKE_CXX_STANDARD 17)
-
-set(IGG_GLAD_GL_VERSION 4.6)
 
 FetchContent_Declare(
         imgui-glfw-glad-glm
@@ -13,10 +11,22 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui-glfw-glad-glm)
 
-add_executable(app main.cpp)
+# Fetch the stb library
+FetchContent_Declare(
+		stb
+		GIT_REPOSITORY https://github.com/nothings/stb.git)
+FetchContent_MakeAvailable(stb)
+include_directories(${stb_SOURCE_DIR})
+
+add_executable(
+		ibeel
+		source/main.cpp
+		source/ibeel.hpp
+		source/ibeel.cpp)
 
 target_link_libraries(
-        app
-        imgui
+		ibeel
+		glfw
+		glad
         glm
-)
+		imgui)
